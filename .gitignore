@@ -4,5 +4,3 @@ dist
 dist-ssr
 *.local
 notes.md
-
-src/features

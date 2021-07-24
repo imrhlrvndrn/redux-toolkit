@@ -1,5 +1,5 @@
 {
-  "name": "rtk-query-demo",
+  "name": "redux-toolkit",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
-    "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-redux": "^7.2.4"
