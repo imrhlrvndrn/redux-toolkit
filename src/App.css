@@ -1,75 +1,67 @@
+:root {
+    --dark: #181818;
+}
+
 .App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-button {
-    font-size: calc(10px + 2vmin);
-}
-
-.btn-container {
-    margin-top: 2rem;
+    padding: 2rem 4rem;
 }
 
 h1 {
-    font-weight: 800;
-    margin: 0;
+    font-size: 3rem;
 }
 
-input {
-    border: none;
+.posts {
+    margin-top: 2rem;
+}
+
+.post > .post-header > h1 {
+    font-size: 2rem;
+}
+
+.post {
+    border: 2px solid var(--dark);
+    border-radius: 10px;
+    background-color: #eee;
+    margin-bottom: 2rem;
     padding: 1rem;
-    display: block;
-    margin: 0.5rem auto;
-    max-width: 400px;
-    border-radius: 5px;
-    background-color: #f4f4f4;
+    transition: 0.3s all ease-in-out;
+    position: relative;
 }
 
-button {
-    border: none;
-    padding: 1rem;
-    margin: 0.5rem;
-    font-weight: 600;
-    border-radius: 5px;
-    transition: 0.2s ease-in-out;
+.post::after {
+    content: '';
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border: 2px solid var(--dark);
+    border-radius: 10px;
 }
 
-button:hover {
+.post:hover {
     cursor: pointer;
     background-color: #f4f4f4;
+}
+
+.post > .post-header {
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--dark);
+}
+
+@media screen and (max-width: 500px) {
+    .App {
+        padding: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .post > .post-header > h1 {
+        word-wrap: break-word;
+        font-size: 1.2rem;
+    }
 }

@@ -1,68 +1,59 @@
 import logo from './logo.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    incrementCounter,
-    decrementCounter,
-    incrementCounterWith,
-    decrementCounterWith,
-} from './features/counter/counter.slice';
+    loadPosts,
+    selectPosts,
+    selectPostsError,
+    selectPostsStatus,
+} from './features/posts/post.slice';
 
 // styles
 import './App.css';
 
 const App = () => {
     const dispatch = useDispatch();
-    const [inputCount, setInputCount] = useState(1);
-    const count = useSelector((state) => state.counter.value);
+    const posts = useSelector(selectPosts);
+    const postError = useSelector(selectPostsError);
+    const postStatus = useSelector(selectPostsStatus);
+
+    useEffect(() => {
+        dispatch(loadPosts());
+    }, []);
+
+    if (postStatus === 'loading')
+        return (
+            <div
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <h1>Loading posts...</h1>
+            </div>
+        );
+    if (postStatus === 'error' && postError) return <div>Error: {postError}</div>;
 
     return (
         <div className='App'>
-            <header className='App-header'>
-                <img src={logo} className='App-logo' alt='logo' />
-                <p>Hello Vite + React!</p>
-                <h1>Counter value: {count}</h1>
-                <label>Increment with</label>
-                <input
-                    type='number'
-                    id='inputCount'
-                    name='inputCount'
-                    value={inputCount}
-                    onChange={(event) => setInputCount(event.target.value)}
-                />
-                <div className='btn-container'>
-                    <button onClick={() => dispatch(incrementCounter())}>Increment</button>
-                    <button onClick={() => dispatch(incrementCounterWith(inputCount))}>
-                        Increment with {inputCount}
-                    </button>
-                    <button onClick={() => dispatch(decrementCounter())}>Decrement</button>
-                    <button onClick={() => dispatch(decrementCounterWith(inputCount))}>
-                        Decrement with {inputCount}
-                    </button>
-                </div>
-                <p>
-                    Edit <code>App.jsx</code> and save to test HMR updates.
-                </p>
-                <p>
-                    <a
-                        className='App-link'
-                        href='https://reactjs.org'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        Learn React
-                    </a>
-                    {' | '}
-                    <a
-                        className='App-link'
-                        href='https://vitejs.dev/guide/features.html'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        Vite Docs
-                    </a>
-                </p>
-            </header>
+            <h1>User's feed</h1>
+            <div className='posts'>
+                {posts?.map((post) => (
+                    <div className='post' key={post.id}>
+                        <div className='post-header'>
+                            <h1>
+                                {post.id}. {post?.title}
+                            </h1>
+                        </div>
+                        <div className='post-content'>
+                            <p>{post?.body}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
