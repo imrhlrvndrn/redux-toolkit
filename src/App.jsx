@@ -1,27 +1,13 @@
-import logo from './logo.svg';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    loadPosts,
-    selectPosts,
-    selectPostsError,
-    selectPostsStatus,
-} from './features/posts/post.slice';
+import React from 'react';
+import { useLoadPostsQuery } from './features/posts/post.api';
 
 // styles
 import './App.css';
 
 const App = () => {
-    const dispatch = useDispatch();
-    const posts = useSelector(selectPosts);
-    const postError = useSelector(selectPostsError);
-    const postStatus = useSelector(selectPostsStatus);
+    const { data, isLoading, isFetching, error } = useLoadPostsQuery();
 
-    useEffect(() => {
-        dispatch(loadPosts());
-    }, []);
-
-    if (postStatus === 'loading')
+    if (isLoading && !data)
         return (
             <div
                 style={{
@@ -35,13 +21,13 @@ const App = () => {
                 <h1>Loading posts...</h1>
             </div>
         );
-    if (postStatus === 'error' && postError) return <div>Error: {postError}</div>;
+    if (!isLoading && !isFetching && error) return <div>Error: {JSON.stringify(error)}</div>;
 
     return (
         <div className='App'>
             <h1>User's feed</h1>
             <div className='posts'>
-                {posts?.map((post) => (
+                {data?.map((post) => (
                     <div className='post' key={post.id}>
                         <div className='post-header'>
                             <h1>
